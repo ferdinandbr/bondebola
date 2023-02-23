@@ -58,7 +58,7 @@ class AuthService
   public function logout()
   {
     auth()->logout();
-
+    
     return response()->json([
       'success' => true,
       'message' => 'Deslogado com sucesso'

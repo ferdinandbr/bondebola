@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -11,7 +10,7 @@ class Handler extends ExceptionHandler
     /**
      * A list of the exception types that are not reported.
      *
-     * @var array
+     * @var string[]
      */
     protected $dontReport = [
         //
@@ -20,31 +19,23 @@ class Handler extends ExceptionHandler
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
-     * @var array
+     * @var string[]
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
 
-    public function render($request, Throwable $e)
+    /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register()
     {
-        try {
-            \Log::info('ROUTE '.$request->path());
-            \Log::info('ERROR_CODE '.$e->getStatusCode());
-            \Log::info('ERROR_MSG '.$e->getMessage());
-        } catch (\Throwable $th) {}
-
-        $error = [
-            'success' => false,
-            'message'=>'Ocorreu um erro interno. Contate o administrador do sistema'
-        ];
-        $status = 500;
-
-        if ($e instanceof HttpException) {
-            $error['message'] = $e->getMessage();
-            $status = $e->getStatusCode();
-        }
-        return response()->json($error, $status);
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 }
