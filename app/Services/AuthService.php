@@ -58,10 +58,15 @@ class AuthService
   public function logout()
   {
     auth()->logout();
-
+    
     return response()->json([
       'success' => true,
       'message' => 'Deslogado com sucesso'
     ]);
+  }
+
+  public function profile()
+  {
+    return $this->authRepository->profile(auth()->user()->id);
   }
 }

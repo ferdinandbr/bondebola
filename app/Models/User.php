@@ -42,6 +42,17 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    public function ownedGroups() 
+    {
+      return $this->hasMany(Group::class);
+    }
+
+    public function myGroups() 
+    { 
+      return $this->hasManyThrough(Group::class, UserGroup::class, 'user_id', 'id', 'id', 'group_id');
+    }
+
+
     public function setPasswordAttribute($value)
     {
       $this->attributes['password'] = bcrypt($value);

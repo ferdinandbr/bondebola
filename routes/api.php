@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\GroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +21,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::group(
   ['middleware' => 'auth:api'], function() {
+    Route::get('profile', [AuthController::class, 'profile']);
     Route::get('logout', [AuthController::class, 'logout']);
-    Route::get('listTasks', [TaskController::class, 'listTasks']);
+    Route::post('createGroup', [GroupController::class, 'createGroup']);
 });

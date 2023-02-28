@@ -6,6 +6,13 @@ use App\Models\User;
 
 class AuthRepository{
 
+  private $user;
+
+  public function __construct(User $user)
+  {
+    $this->user = $user;
+  }
+
 	public function login($data)
   {
     if (!$token = auth()->attempt(["email" => $data['email'], "password" => $data['password']]))
@@ -26,9 +33,8 @@ class AuthRepository{
 
   public function register($data) 
   {
-    $user = new User();
     try {
-      $user->create($data);
+      $this->user->create($data);
 
       return response()->json([
         'success' => true,
@@ -41,5 +47,12 @@ class AuthRepository{
         'message' => "Erro ao se registrar. Entre em contato com o administrador do sistema"
       ],401);
     }
+  }
+
+  public function profile($userId)
+  {
+    return $this->user->where('id', $userId)
+      ->with('myGroups')
+      ->first();
   }
 }

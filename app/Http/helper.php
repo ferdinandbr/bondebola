@@ -1,4 +1,5 @@
 <?php
+use App\Models\User;
 
 function validRules($data, $rules, $customErrors)
 {
@@ -10,4 +11,15 @@ function validRules($data, $rules, $customErrors)
 	}
 
   return $validator->validated();
+}
+
+function checkCanCreate($userId) {
+  $user = new User();
+  $user = $user->with('ownedGroups')
+    ->where('id', $userId)
+    ->first();
+    
+  abort_if(count($user->ownedGroups) >=2, 409, 'Você já atingiu o número máximo de rachas criado !');
+
+  return true;
 }
