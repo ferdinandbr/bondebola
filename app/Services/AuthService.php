@@ -64,4 +64,9 @@ class AuthService
       'message' => 'Deslogado com sucesso'
     ]);
   }
+
+  public function profile()
+  {
+    return $this->authRepository->profile(auth()->user()->id);
+  }
 }

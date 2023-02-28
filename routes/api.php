@@ -21,6 +21,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::group(
   ['middleware' => 'auth:api'], function() {
+    Route::get('profile', [AuthController::class, 'profile']);
     Route::get('logout', [AuthController::class, 'logout']);
     Route::post('createGroup', [GroupController::class, 'createGroup']);
 });
